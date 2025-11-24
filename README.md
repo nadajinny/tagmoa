@@ -51,17 +51,15 @@ Tagmoa는 복잡해지는 할 일들을 태그 중심으로 구조화해 한눈�
 
 ## 📱 Tagmoa 화면 미리보기
 
-<details>
-  <summary><strong>▶ 온보딩 이미지 보기 (가로 스크롤)</strong></summary>
-  <div style="display: flex; overflow-x: auto; gap: 12px; padding: 10px 0;">
-    <img src="app/src/main/res/drawable/image_usage_1.png" height="420" />
-    <img src="app/src/main/res/drawable/image_usage_2.png" height="420" />
-    <img src="app/src/main/res/drawable/image_usage_3.png" height="420" />
-    <img src="app/src/main/res/drawable/image_usage_4.png" height="420" />
-    <img src="app/src/main/res/drawable/image_usage_5.png" height="420" />
-    <img src="app/src/main/res/drawable/image_usage_6.png" height="420" />
-  </div>
-</details>
+▶ 온보딩 이미지 보기 (가로 스크롤)
+<div style="display: flex; overflow-x: auto; gap: 12px; padding: 10px 0;">
+  <img src="app/src/main/res/drawable/image_usage_1.png" height="420" />
+  <img src="app/src/main/res/drawable/image_usage_2.png" height="420" />
+  <img src="app/src/main/res/drawable/image_usage_3.png" height="420" />
+  <img src="app/src/main/res/drawable/image_usage_4.png" height="420" />
+  <img src="app/src/main/res/drawable/image_usage_5.png" height="420" />
+  <img src="app/src/main/res/drawable/image_usage_6.png" height="420" />
+</div>
 
 ---
 
