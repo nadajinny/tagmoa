@@ -14,6 +14,7 @@ import com.ndjinny.tagmoa.R
 import com.ndjinny.tagmoa.model.MainTask
 import com.ndjinny.tagmoa.model.SubTask
 import com.ndjinny.tagmoa.model.UserDatabase
+import com.ndjinny.tagmoa.model.toSubTaskSafe
 import com.ndjinny.tagmoa.model.ensureManualScheduleFlag
 import com.ndjinny.tagmoa.view.CalendarDecorators
 import com.ndjinny.tagmoa.view.CalendarScheduleAdapter
@@ -215,9 +216,7 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                     val mainId = mainSnapshot.key.orEmpty()
                     val list = mutableListOf<SubTask>()
                     for (child in mainSnapshot.children) {
-                        val subTask = child.getValue(SubTask::class.java) ?: continue
-                        subTask.id = subTask.id.ifBlank { child.key.orEmpty() }
-                        subTask.mainTaskId = subTask.mainTaskId.ifBlank { mainId }
+                        val subTask = child.toSubTaskSafe(mainId) ?: continue
                         list.add(subTask)
                     }
                     subTasksByMain[mainId] = list

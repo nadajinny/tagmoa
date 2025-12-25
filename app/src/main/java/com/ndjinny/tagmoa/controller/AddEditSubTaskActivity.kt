@@ -21,6 +21,7 @@ import com.ndjinny.tagmoa.model.AlarmPreferences
 import com.ndjinny.tagmoa.model.MainTask
 import com.ndjinny.tagmoa.model.SubTask
 import com.ndjinny.tagmoa.model.UserDatabase
+import com.ndjinny.tagmoa.model.toSubTaskSafe
 import com.ndjinny.tagmoa.view.SimpleItemSelectedListener
 import com.ndjinny.tagmoa.view.TaskDateRangePicker
 import com.ndjinny.tagmoa.view.formatDateRange
@@ -212,7 +213,7 @@ class AddEditSubTaskActivity : AppCompatActivity() {
         val mainTaskId = selectedMainTaskId ?: return
         val subId = subTaskId ?: return
         subTasksRef.child(mainTaskId).child(subId).get().addOnSuccessListener { snapshot ->
-            val subTask = snapshot.getValue(SubTask::class.java) ?: return@addOnSuccessListener
+            val subTask = snapshot.toSubTaskSafe(mainTaskId) ?: return@addOnSuccessListener
             editContent.setText(subTask.content)
             selectedStartDate = subTask.startDate ?: subTask.dueDate
             selectedEndDate = subTask.endDate ?: subTask.dueDate
@@ -458,9 +459,7 @@ class AddEditSubTaskActivity : AppCompatActivity() {
             for (mainSnapshot in snapshot.children) {
                 val mainId = mainSnapshot.key.orEmpty()
                 for (child in mainSnapshot.children) {
-                    val subTask = child.getValue(SubTask::class.java) ?: continue
-                    subTask.id = subTask.id.ifBlank { child.key.orEmpty() }
-                    subTask.mainTaskId = subTask.mainTaskId.ifBlank { mainId }
+                    val subTask = child.toSubTaskSafe(mainId) ?: continue
                     allSubTasks.add(subTask)
                 }
             }

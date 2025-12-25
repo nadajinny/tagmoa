@@ -19,6 +19,7 @@ import com.ndjinny.tagmoa.model.Tag
 import com.ndjinny.tagmoa.model.UserDatabase
 import com.ndjinny.tagmoa.model.TaskCompletionSyncManager
 import com.ndjinny.tagmoa.model.ensureManualScheduleFlag
+import com.ndjinny.tagmoa.model.toSubTaskSafe
 import com.ndjinny.tagmoa.view.SubTaskAdapter
 import com.ndjinny.tagmoa.view.buildScheduleLabel
 import com.google.firebase.database.DataSnapshot
@@ -156,11 +157,8 @@ class MainTaskDetailActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val items = mutableListOf<SubTask>()
                 for (child in snapshot.children) {
-                    val subTask = child.getValue(SubTask::class.java)
-                    if (subTask != null) {
-                        subTask.id = subTask.id.ifBlank { child.key.orEmpty() }
-                        items.add(subTask)
-                    }
+                    val subTask = child.toSubTaskSafe(taskId) ?: continue
+                    items.add(subTask)
                 }
                 adapter.submitList(items)
                 subTaskEmpty.visibility = if (items.isEmpty()) View.VISIBLE else View.GONE

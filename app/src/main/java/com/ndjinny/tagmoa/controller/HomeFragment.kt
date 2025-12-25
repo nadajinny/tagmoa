@@ -17,6 +17,7 @@ import com.ndjinny.tagmoa.model.MainTask
 import com.ndjinny.tagmoa.model.SubTask
 import com.ndjinny.tagmoa.model.UserDatabase
 import com.ndjinny.tagmoa.model.ensureManualScheduleFlag
+import com.ndjinny.tagmoa.model.toSubTaskSafe
 import com.ndjinny.tagmoa.view.DueMainTaskAdapter
 import com.ndjinny.tagmoa.view.DueSubTaskAdapter
 import com.ndjinny.tagmoa.view.DueSubTaskItem
@@ -129,7 +130,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 for (mainSnapshot in snapshot.children) {
                     val mainId = mainSnapshot.key.orEmpty()
                     for (child in mainSnapshot.children) {
-                        val subTask = child.getValue(SubTask::class.java) ?: continue
+                        val subTask = child.toSubTaskSafe(mainId) ?: continue
                         val subId = subTask.id.ifBlank { child.key.orEmpty() }
                         if (subTask.isCompleted) continue
                         if (isDueToday(subTask.dueDate)) {
